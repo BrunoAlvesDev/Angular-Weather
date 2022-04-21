@@ -26,12 +26,6 @@ export class HomeComponent implements OnInit {
 
   @ViewChild('searchInput') searchInput!: ElementRef;
 
-  @HostListener('document:keypress', ['$event'])
-  handleKeyboardEvent(event: KeyboardEvent) {
-    //if (event.key === 'Enter') console.log('hahabololo');
-    //console.log(event.key);
-  }
-
   constructor(
     private locationService: LocationService,
     private weatherService: WeatherService,
@@ -101,9 +95,6 @@ export class HomeComponent implements OnInit {
 
   public getActualTime(lat: number, lng: number): void {
     this.timezoneService.getTimezone(lat, lng).subscribe((timezone) => {
-      console.log('timezone', timezone);
-      console.log(new Date(timezone.formatted).getHours());
-
       let now = new Date(timezone.formatted).getHours();
 
       this.buildIcon(now);
