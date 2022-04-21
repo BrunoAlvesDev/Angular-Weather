@@ -1,6 +1,14 @@
-import { Component, OnInit } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  HostListener,
+  Input,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { Weather } from '../interfaces/weather';
 import { LocationService } from '../services/location.service';
+import { TimezoneService } from '../services/timezone.service';
 import { WeatherService } from '../services/weather.service';
 
 @Component({
@@ -13,15 +21,28 @@ export class HomeComponent implements OnInit {
   public lighting: string;
   public weather: Weather;
   private weatherData: any;
+  public search: string;
+  public isSearching: boolean;
+
+  @ViewChild('searchInput') searchInput!: ElementRef;
+
+  @HostListener('document:keypress', ['$event'])
+  handleKeyboardEvent(event: KeyboardEvent) {
+    //if (event.key === 'Enter') console.log('hahabololo');
+    //console.log(event.key);
+  }
 
   constructor(
     private locationService: LocationService,
-    private weatherService: WeatherService
+    private weatherService: WeatherService,
+    private timezoneService: TimezoneService
   ) {
     this.icon = '';
     this.lighting = '';
     this.weather = {};
     this.weatherData = {};
+    this.search = '';
+    this.isSearching = true;
   }
 
   ngOnInit(): void {
@@ -35,37 +56,58 @@ export class HomeComponent implements OnInit {
     this.getUserLocation();
   }
 
-  public getUserLocation(): void {
-    this.locationService.getLocation().then((location) => {
-      this.getWeather(location);
+  public searchLocation(): void {
+    this.isSearching = true;
+
+    this.searchInput.nativeElement.blur();
+
+    this.locationService.getLatLng(this.search).subscribe((response) => {
+      let data = response.data[0];
+
+      if (response.data.length === 0) {
+        this.search = 'Não encontrado';
+        this.isSearching = false;
+      } else this.getWeather(data.latitude, data.longitude);
     });
-  }
-
-  public getActualTime(): void {
-    let now = new Date().getHours();
-    this.buildIcon(now);
-  }
-
-  public getWeather(location: any): void {
-    this.weatherService
-      .getWeather(location.lat, location.lng)
-      .subscribe((data) => {
-        this.weatherData = data;
-
-        this.weather = {
-          tempCelsius: Math.round(data.main.temp),
-          tempFahrenheit: Math.round(data.main.temp) * 1.8 + 32,
-          city: data.name,
-          activeUnit: 'C',
-        };
-
-        this.getActualTime();
-      });
   }
 
   public toggleActiveUnit(): void {
     if (this.weather.activeUnit === 'C') this.weather.activeUnit = 'F';
     else this.weather.activeUnit = 'C';
+  }
+
+  public getUserLocation(): void {
+    this.locationService.getLocation().then((location) => {
+      this.getWeather(location.lat, location.lng);
+    });
+  }
+
+  public getWeather(lat: number, lng: number): void {
+    this.weatherService.getWeather(lat, lng).subscribe((data) => {
+      this.weatherData = data;
+
+      this.weather = {
+        tempCelsius: Math.round(data.main.temp),
+        tempFahrenheit: Math.round(data.main.temp * 1.8 + 32),
+        city: data.name,
+        activeUnit: 'C',
+      };
+
+      if (this.search === '') this.search = data.name;
+
+      this.getActualTime(lat, lng);
+    });
+  }
+
+  public getActualTime(lat: number, lng: number): void {
+    this.timezoneService.getTimezone(lat, lng).subscribe((timezone) => {
+      console.log('timezone', timezone);
+      console.log(new Date(timezone.formatted).getHours());
+
+      let now = new Date(timezone.formatted).getHours();
+
+      this.buildIcon(now);
+    });
   }
 
   public buildIcon(now: number): void {
@@ -102,6 +144,8 @@ export class HomeComponent implements OnInit {
 
       this.lighting = 'night-clear';
     }
+
+    this.isSearching = false;
   }
 
   public buildIconPath(iconName: string): void {
