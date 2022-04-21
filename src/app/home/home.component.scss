@@ -1,0 +1,130 @@
+@import '../../themes/remc.scss';
+
+:host{
+  .page{
+    width: 100vw;
+    height: 100vh;
+
+    .card{
+      position: absolute;
+      width: auto;
+      max-width: remc(600);
+      height: auto;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      padding: remc(20);
+      background: var(--dark);
+      border-radius: remc(50);
+
+      &--body{
+        display: flex;
+        line-height: 1;
+
+        img{
+          width: auto;
+          height: 100%;
+          max-height: remc(120);
+        }
+
+        h1{
+          width: remc(130);
+          text-align: center;
+          padding-left: remc(20);
+          color: var(--white);
+          font-size: remc(100);
+          font-family: 'Oswald', sans-serif;
+        }
+
+        h2{
+          color: var(--gray);
+          font-size: remc(40);
+          font-family: 'Oswald', sans-serif;
+          cursor: pointer;
+        }
+
+        .active{
+          color: var(--white);
+        }
+
+        .divider{
+          width: remc(2);
+          height: remc(40);
+          margin: 0 remc(20);
+          background: var(--gray);
+        }
+      }
+
+      &--footer{
+        h1{
+          text-align: center;
+          padding-top: remc(20);
+          color: var(--white);
+          font-size: remc(30);
+        }
+      }
+    }
+
+    .buyMeACoffee{
+      position: absolute;
+      left: 50%;
+      transform: translate(-50%, 0);
+      bottom: 0;
+      width: auto;
+      height: auto;
+      padding: remc(10);
+      background-color: var(--yellow);
+      border-radius: remc(10);
+      cursor: pointer;
+
+      p{
+        color: var(--dark);
+        font-weight: bold;
+      }
+    }
+
+    @media screen and (max-width: remc(768)) {
+      .card{
+        padding: remc(20);
+
+        &--body{
+          img{
+            max-height: remc(80);
+          }
+
+          h1{
+            width: remc(100);
+            font-size: remc(80);
+          }
+
+          h2{
+            font-size: remc(30);
+          }
+
+          .divider{
+            width: remc(2);
+            height: remc(30);
+            margin: 0 remc(10);
+          }
+        }
+
+        &--footer{
+          h1{
+            padding-top: remc(20);
+            font-size: remc(20);
+          }
+        }
+      }
+    }
+  }
+
+  .day-clear{
+    background: rgb(253,222,158);
+    background: linear-gradient(0deg, rgba(253,222,158,1) 0%, rgba(233,217,191,1) 39%, rgba(0,212,255,1) 100%);
+  }
+
+  .night-clear{
+    background: rgb(48,87,154);
+    background: linear-gradient(0deg, rgba(48,87,154,1) 0%, rgba(21,72,155,1) 16%, rgba(3,46,117,1) 34%, rgba(1,14,66,1) 53%, rgba(5,9,48,1) 100%);
+  }
+}

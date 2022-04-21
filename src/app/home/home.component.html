@@ -1,0 +1,29 @@
+<div class="page" [ngClass]="lighting">
+  <div class="card">
+    <div class="card--body">
+      <img [src]="icon" />
+      <h1 *ngIf="weather.activeUnit === 'C'">{{ weather?.tempCelsius }}</h1>
+      <h1 *ngIf="weather.activeUnit === 'F'">{{ weather?.tempFahrenheit }}</h1>
+      <h2
+        [ngClass]="weather.activeUnit === 'C' ? 'active' : ''"
+        (click)="weather.activeUnit = 'C'"
+      >
+        °C
+      </h2>
+      <div class="divider"></div>
+      <h2
+        [ngClass]="weather.activeUnit === 'F' ? 'active' : ''"
+        (click)="weather.activeUnit = 'F'"
+      >
+        °F
+      </h2>
+    </div>
+    <div class="card--footer">
+      <h1>{{ weather?.city }}</h1>
+    </div>
+  </div>
+
+  <a target="_blank" href="https://www.buymeacoffee.com/brunodev"
+    ><div class="buyMeACoffee"><p>☕ Buy me a coffee</p></div></a
+  >
+</div>
