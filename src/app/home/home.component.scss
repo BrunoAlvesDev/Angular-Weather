@@ -118,13 +118,28 @@
     }
   }
 
+  .morning-clear{
+    background: rgb(253,222,158);
+    background: linear-gradient(0deg, rgba(253,222,158,1) 0%, rgba(21,72,155,1) 16%, rgba(3,46,117,1) 34%, rgba(1,14,66,1) 53%, rgba(5,9,48,1) 100%);
+  }
+
   .day-clear{
     background: rgb(253,222,158);
     background: linear-gradient(0deg, rgba(253,222,158,1) 0%, rgba(233,217,191,1) 39%, rgba(0,212,255,1) 100%);
   }
 
-  .night-clear{
+  .sunset-clear{
+    background: rgb(255,191,83);
+    background: linear-gradient(0deg, rgba(255,191,83,1) 0%, rgba(255,169,80,1) 19%, rgba(231,104,92,1) 37%, rgba(234,98,92,1) 51%, rgba(64,64,106,1) 100%);
+  }
+
+  .nights-start-clear{
     background: rgb(48,87,154);
     background: linear-gradient(0deg, rgba(48,87,154,1) 0%, rgba(21,72,155,1) 16%, rgba(3,46,117,1) 34%, rgba(1,14,66,1) 53%, rgba(5,9,48,1) 100%);
+  }
+
+  .night-clear{
+    background: rgb(3,46,117);
+    background: linear-gradient(0deg, rgba(3,46,117,1) 0%, rgba(1,14,66,1) 18%, rgba(5,9,48,1) 100%);
   }
 }

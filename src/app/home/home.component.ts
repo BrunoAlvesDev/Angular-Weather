@@ -71,15 +71,31 @@ export class HomeComponent implements OnInit {
   public buildIcon(now: number): void {
     let clouds = this.weatherData.clouds.all;
 
-    if (now > 6 && now < 18) {
+    if (now >= 5 && now <= 6) {
+      if (clouds < 10) this.buildIconPath('sunny');
+      else if (clouds < 80) this.buildIconPath('cloudy');
+      else this.buildIconPath('cloud');
+
+      this.lighting = 'morning-clear';
+    } else if (now > 6 && now < 17) {
       if (clouds < 10) this.buildIconPath('sunny');
       else if (clouds < 80) this.buildIconPath('cloudy');
       else this.buildIconPath('cloud');
 
       this.lighting = 'day-clear';
-    } else {
-      console.log('aa', clouds < 80);
+    } else if (now >= 17 && now <= 18) {
+      if (clouds < 10) this.buildIconPath('sunny');
+      else if (clouds < 80) this.buildIconPath('cloudy');
+      else this.buildIconPath('cloud');
 
+      this.lighting = 'sunset-clear';
+    } else if (now > 18 && now < 20) {
+      if (clouds < 10) this.buildIconPath('night');
+      else if (clouds < 80) this.buildIconPath('night-cloudy');
+      else this.buildIconPath('cloud');
+
+      this.lighting = 'nights-start-clear';
+    } else {
       if (clouds < 10) this.buildIconPath('night');
       else if (clouds < 80) this.buildIconPath('night-cloudy');
       else this.buildIconPath('cloud');
